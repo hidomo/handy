@@ -12,7 +12,7 @@ struct Daemon {
     static int getPidFromFile(const char *pidfile);
 
     // cmd: start stop restart
-    // exit(1) when error
+    // exit(1) when handy_error
     // exit(0) when start or restart in parent
     // return when start or restart in child
     static void daemonProcess(const char *cmd, const char *pidfile);

@@ -76,7 +76,7 @@ TimerId runAt(int64_t milli, const Task& task, int64_t interval=0)
 //取消定时任务，若timer已经过期，则忽略
 bool cancel(TimerId timerid);
 
-TimerId tid = base.runAfter(1000, []{ info("a second passed"); });
+TimerId tid = base.runAfter(1000, []{ handy_info("a second passed"); });
 base.cancel(tid);
 ```
 [例子程序](examples/timer.cc)
@@ -104,10 +104,10 @@ TcpConnPtr con = TcpConn::createConnection(&base, host, port); #第一个参数�
 ```c
 TcpConnPtr con = TcpConn::createConnection(&base, host, port);
 con->onState([=](const TcpConnPtr& con) {
-    info("onState called state: %d", con->getState());
+    handy_info("onState called state: %d", con->getState());
 });
 con->onRead([](const TcpConnPtr& con){
-    info("recv %lu bytes", con->getInput().size());
+    handy_info("recv %lu bytes", con->getInput().size());
     con->send("ok");
     con->getInput().clear();
 });
@@ -142,7 +142,7 @@ void onMsg(CodecBase* codec, const MsgCallBack& cb);
 void sendMsg(Slice msg);
 
 con->onMsg(new LineCodec, [](const TcpConnPtr& con, Slice msg) {
-    info("recv msg: %.*s", (int)msg.size(), msg.data());
+    handy_info("recv msg: %.*s", (int)msg.size(), msg.data());
     con->sendMsg("hello");
 });
 ```
@@ -216,7 +216,7 @@ void onMsg(CodecBase* codec, const RetMsgCallBack& cb);
 
 hsha.onMsg(new LineCodec, [](const TcpConnPtr& con, const string& input){
     int ms = rand() % 1000;
-    info("processing a msg");
+    handy_info("processing a msg");
     usleep(ms * 1000);
     return util::format("%s used %d ms", input.c_str(), ms);
 });

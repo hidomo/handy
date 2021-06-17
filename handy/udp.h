@@ -14,7 +14,7 @@ const int kUdpPacketSize = 4096;
 // Udp服务器
 struct UdpServer : public std::enable_shared_from_this<UdpServer>, private noncopyable {
     UdpServer(EventBases *bases);
-    // return 0 on sucess, errno on error
+    // return 0 on sucess, errno on handy_error
     int bind(const std::string &host, unsigned short port, bool reusePort = false);
     static UdpServerPtr startServer(EventBases *bases, const std::string &host, unsigned short port, bool reusePort = false);
     ~UdpServer() { delete channel_; }

@@ -114,7 +114,7 @@ struct TcpConn : public std::enable_shared_from_this<TcpConn>, private noncopyab
 // Tcp服务器
 struct TcpServer : private noncopyable {
     TcpServer(EventBases *bases);
-    // return 0 on sucess, errno on error
+    // return 0 on sucess, errno on handy_error
     int bind(const std::string &host, unsigned short port, bool reusePort = false);
     static TcpServerPtr startServer(EventBases *bases, const std::string &host, unsigned short port, bool reusePort = false);
     ~TcpServer() { delete listen_channel_; }

@@ -9,7 +9,7 @@ namespace handy {
 struct Conf {
     // 0 success
     // -1 IOERROR
-    // >0 line no of error
+    // >0 line no of handy_error
     int parse(const std::string &filename);
 
     // Get a string value from INI file, returning default_value if not found.

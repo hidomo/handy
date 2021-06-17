@@ -82,7 +82,7 @@ int Daemon::daemonStart(const char *pidfile) {
 
     pid = fork();
     if (pid < 0) {
-        fprintf(stderr, "fork error: %d\n", pid);
+        fprintf(stderr, "fork handy_error: %d\n", pid);
         return -1;
     }
     if (pid > 0) {
@@ -164,7 +164,7 @@ void Daemon::daemonProcess(const char *cmd, const char *pidfile) {
         r = -1;
     }
     if (r) {
-        // exit on error
+        // exit on handy_error
         exit(1);
     }
 }
@@ -173,7 +173,7 @@ void Daemon::changeTo(const char *argv[]) {
     int pid = getpid();
     int r = fork();
     if (r < 0) {
-        fprintf(stderr, "fork error %d %s", errno, strerror(errno));
+        fprintf(stderr, "fork handy_error %d %s", errno, strerror(errno));
     } else if (r > 0) {  // parent;
         return;
     } else {  // child
@@ -182,7 +182,7 @@ void Daemon::changeTo(const char *argv[]) {
             usleep(10 * 1000);
         }
         if (errno != ESRCH) {
-            const char *msg = "kill error\n";
+            const char *msg = "kill handy_error\n";
             ssize_t w1 = write(2, msg, strlen(msg));
             (void) w1;
             _exit(1);

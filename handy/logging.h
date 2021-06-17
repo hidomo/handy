@@ -5,14 +5,14 @@
 #include "util.h"
 
 #ifdef NDEBUG
-#define hlog(level, ...)                                                                \
+#define handy_hlog(level, ...)                                                                \
     do {                                                                                \
         if (level <= Logger::getLogger().getLogLevel()) {                               \
             Logger::getLogger().logv(level, __FILE__, __LINE__, __func__, __VA_ARGS__); \
         }                                                                               \
     } while (0)
 #else
-#define hlog(level, ...)                                                                \
+#define handy_hlog(level, ...)                                                                \
     do {                                                                                \
         if (level <= Logger::getLogger().getLogLevel()) {                               \
             snprintf(0, 0, __VA_ARGS__);                                                \
@@ -22,28 +22,28 @@
 
 #endif
 
-#define trace(...) hlog(Logger::LTRACE, __VA_ARGS__)
-#define debug(...) hlog(Logger::LDEBUG, __VA_ARGS__)
-#define info(...) hlog(Logger::LINFO, __VA_ARGS__)
-#define warn(...) hlog(Logger::LWARN, __VA_ARGS__)
-#define error(...) hlog(Logger::LERROR, __VA_ARGS__)
-#define fatal(...) hlog(Logger::LFATAL, __VA_ARGS__)
-#define fatalif(b, ...)                        \
+#define handy_trace(...) handy_hlog(Logger::LTRACE, __VA_ARGS__)
+#define debug(...) handy_hlog(Logger::LDEBUG, __VA_ARGS__)
+#define handy_info(...) handy_hlog(Logger::LINFO, __VA_ARGS__)
+#define handy_warn(...) handy_hlog(Logger::LWARN, __VA_ARGS__)
+#define handy_error(...) handy_hlog(Logger::LERROR, __VA_ARGS__)
+#define handy_fatal(...) handy_hlog(Logger::LFATAL, __VA_ARGS__)
+#define handy_fatalif(b, ...)                        \
     do {                                       \
-        if ((b)) {                             \
-            hlog(Logger::LFATAL, __VA_ARGS__); \
+        if ((b)) {                                   \
+            handy_hlog(Logger::LFATAL, __VA_ARGS__); \
         }                                      \
     } while (0)
 #define check(b, ...)                          \
     do {                                       \
-        if ((b)) {                             \
-            hlog(Logger::LFATAL, __VA_ARGS__); \
+        if ((b)) {                                   \
+            handy_hlog(Logger::LFATAL, __VA_ARGS__); \
         }                                      \
     } while (0)
 #define exitif(b, ...)                         \
     do {                                       \
-        if ((b)) {                             \
-            hlog(Logger::LERROR, __VA_ARGS__); \
+        if ((b)) {                                   \
+            handy_hlog(Logger::LERROR, __VA_ARGS__); \
             _exit(1);                          \
         }                                      \
     } while (0)
