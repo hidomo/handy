@@ -23,7 +23,7 @@
 #endif
 
 #define handy_trace(...) handy_hlog(Logger::LTRACE, __VA_ARGS__)
-#define debug(...) handy_hlog(Logger::LDEBUG, __VA_ARGS__)
+#define handy_debug(...) handy_hlog(Logger::LDEBUG, __VA_ARGS__)
 #define handy_info(...) handy_hlog(Logger::LINFO, __VA_ARGS__)
 #define handy_warn(...) handy_hlog(Logger::LWARN, __VA_ARGS__)
 #define handy_error(...) handy_hlog(Logger::LERROR, __VA_ARGS__)
@@ -34,13 +34,13 @@
             handy_hlog(Logger::LFATAL, __VA_ARGS__); \
         }                                      \
     } while (0)
-#define check(b, ...)                          \
+#define handy_check(b, ...)                          \
     do {                                       \
         if ((b)) {                                   \
             handy_hlog(Logger::LFATAL, __VA_ARGS__); \
         }                                      \
     } while (0)
-#define exitif(b, ...)                         \
+#define handy_exitif(b, ...)                         \
     do {                                       \
         if ((b)) {                                   \
             handy_hlog(Logger::LERROR, __VA_ARGS__); \
@@ -48,8 +48,8 @@
         }                                      \
     } while (0)
 
-#define setloglevel(l) Logger::getLogger().setLogLevel(l)
-#define setlogfile(n) Logger::getLogger().setFileName(n)
+#define handy_setloglevel(l) Logger::getLogger().setLogLevel(l)
+#define handy_setlogfile(n) Logger::getLogger().setFileName(n)
 
 namespace handy {
 

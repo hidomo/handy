@@ -24,7 +24,7 @@ int main(int argc, const char* argv[]) {
     Signal::signal(SIGINT, [&]{ base.exit(); }); 
     TcpServer echo(&base);
     int r = echo.bind("", 2099);
-    exitif(r, "bind failed %d %s", errno, strerror(errno));
+    handy_exitif(r, "bind failed %d %s", errno, strerror(errno));
     echo.onConnRead([](const TcpConnPtr& con) {
         con->send(con->getInput());
     });
@@ -82,7 +82,7 @@ base.safeCall([](con){con->send("OK");});
 
 ### manage timeout tasks
 EventBase will make itself return by setting a wait time form epoll_wait/kevent.
-It will check and call timeout tasks. The precision rely on epoll_wait/kevent
+It will handy_check and call timeout tasks. The precision rely on epoll_wait/kevent
 
 ```c
 //interval: 0：once task；>0：repeated task, task will be execute every interval milliseconds
@@ -173,7 +173,7 @@ con->context<std::string>() = "user defined data";
 ```c
 TcpServer echo(&base);
 int r = echo.bind("", 2099);
-exitif(r, "bind failed %d %s", errno, strerror(errno));
+handy_exitif(r, "bind failed %d %s", errno, strerror(errno));
 echo.onConnRead([](const TcpConnPtr& con) {
     con->send(con->getInput()); // echo data read
 });
@@ -202,7 +202,7 @@ chat.onConnCreate([&]{
 //example
 HttpServer sample(&base);
 int r = sample.bind("", 8081);
-exitif(r, "bind failed %d %s", errno, strerror(errno));
+handy_exitif(r, "bind failed %d %s", errno, strerror(errno));
 sample.onGet("/hello", [](const HttpConnPtr& con) {
    HttpResponse resp;
    resp.body = Slice("hello world");

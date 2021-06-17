@@ -25,7 +25,7 @@ int main(int argc, const char* argv[]) {
     Signal::signal(SIGINT, [&]{ base.exit(); }); 
     TcpServer echo(&base); //创建服务器
     int r = echo.bind("", 2099); //绑定端口
-    exitif(r, "bind failed %d %s", errno, strerror(errno));
+    handy_exitif(r, "bind failed %d %s", errno, strerror(errno));
     echo.onConnRead([](const TcpConnPtr& con) {
         con->send(con->getInput()); // echo 读取的数据
     });
@@ -168,7 +168,7 @@ TcpServer echo(&base);
 ```c
 TcpServer echo(&base); //创建服务器
 int r = echo.bind("", 2099); //绑定端口
-exitif(r, "bind failed %d %s", errno, strerror(errno));
+handy_exitif(r, "bind failed %d %s", errno, strerror(errno));
 echo.onConnRead([](const TcpConnPtr& con) {
     con->send(con->getInput()); // echo 读取的数据
 });
@@ -199,7 +199,7 @@ chat.onConnCreate([&]{
 //使用示例
 HttpServer sample(&base);
 int r = sample.bind("", 8081);
-exitif(r, "bind failed %d %s", errno, strerror(errno));
+handy_exitif(r, "bind failed %d %s", errno, strerror(errno));
 sample.onGet("/hello", [](const HttpConnPtr& con) {
    HttpResponse resp;
    resp.body = Slice("hello world");

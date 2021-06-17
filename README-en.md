@@ -13,7 +13,7 @@ handy[![Build Status](https://travis-ci.org/yedf/handy.png)](https://travis-ci.o
 
 programmer can write operations for exit
 
-can use valgrind to check memory leak
+can use valgrind to handy_check memory leak
 
 ### high performance
 
@@ -43,7 +43,7 @@ int main(int argc, const char* argv[]) {
     EventBase base;
     Signal::signal(SIGINT, [&]{ base.exit(); });
     TcpServerPtr svr = TcpServer::startServer(&base, "", 2099);
-    exitif(svr == NULL, "start tcp server failed");
+    handy_exitif(svr == NULL, "start tcp server failed");
     svr->onConnRead([](const TcpConnPtr& con) {
         con->send(con->getInput());
     });
