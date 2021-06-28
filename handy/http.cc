@@ -55,8 +55,8 @@ HttpMsg::Result HttpMsg::tryDecode_(Slice buf, bool copyBody, Slice *line1) {
             } else if (k.empty() && ln.empty() && req.empty()) {
                 break;
             } else {
-                handy_error("bad http line: %.*s %.*s", (int) k.size(), k.data(), (int) ln.size(), ln.data());
-                return Error;
+                handy_error("bad http header: %.*s %.*s", (int) k.size(), k.data(), (int) ln.size(), ln.data());
+                continue; // 总有蠢蛋手拼http会把header写错，而你对此无能为力
             }
         }
         scanned_ += 4;
