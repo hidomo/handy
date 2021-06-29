@@ -56,11 +56,12 @@ HttpMsg::Result HttpMsg::tryDecode_(Slice buf, bool copyBody, Slice *line1) {
                 break;
             } else {
                 handy_error("bad http header: %.*s %.*s", (int) k.size(), k.data(), (int) ln.size(), ln.data());
-                continue; // 总有蠢蛋手拼http会把header写错，而你对此无能为力
+                continue;
             }
         }
         scanned_ += 4;
         contentLen_ = atoi(getHeader("content-length").c_str());
+        handy_error("content length: %d", contentLen_);
         if (buf.size() < contentLen_ + scanned_ && getHeader("Expect").size()) {
             return Continue100;
         }
@@ -100,8 +101,22 @@ HttpMsg::Result HttpRequest::tryDecode(Slice buf, bool copyBody) {
         query_uri = ln1.eatWord();
         version = ln1.eatWord();
         if (query_uri.size() == 0 || query_uri[0] != '/') {
-            handy_error("query uri '%.*s' should begin with /", (int) query_uri.size(), query_uri.data());
-            return Error;
+            if (strncmp(query_uri.data(), "http://", 7) == 0) {
+                size_t cnt = 0, i;
+                for (i = 0; i < query_uri.size(); i++) {
+                    if (query_uri[i] == '/')
+                        cnt++;
+                    if (cnt == 3)
+                        break; // 压测平台是个sb
+                }
+                query_uri = query_uri.substr(i);
+                if (query_uri.size() == 0)
+                    goto query_uri_is_fucked;
+            } else {
+            query_uri_is_fucked:
+                handy_error("query uri '%.*s' should begin with /", (int) query_uri.size(), query_uri.data());
+                return Error;
+            }
         }
         for (size_t i = 0; i < query_uri.size(); i++) {
             if (query_uri[i] == '?') {
